@@ -1,0 +1,7 @@
+# created by virtualenv automatically
+*/prototype/
+db/backup
+test/
+.ipynb_checkpoints/
+.idea/
+.venv/
