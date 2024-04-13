@@ -1,0 +1,16 @@
+2024-04-13 18:28:53,233 - __main__ - DEBUG - D:\Dropbox\00_Work\002_Portfolio\automate_data_ingestion
+2024-04-13 18:28:53,233 - __main__ - INFO - Job is starting.
+2024-04-13 18:28:53,233 - __main__ - ERROR - An unexpected error occurred: list index out of range
+2024-04-13 18:28:53,233 - __main__ - INFO - Connection successful.
+2024-04-13 18:28:53,233 - __main__ - INFO - Total changes since last commit: 0
+2024-04-13 18:28:53,234 - __main__ - INFO - Tables in the database:
+2024-04-13 18:28:53,234 - __main__ - INFO - students
+2024-04-13 18:28:53,234 - __main__ - INFO - student_jobs
+2024-04-13 18:28:53,234 - __main__ - INFO - courses
+2024-04-13 18:28:53,234 - __main__ - INFO - incomplete_data_subscribers
+2024-04-13 18:28:53,234 - __main__ - INFO - main_cancelled_subscribers
+2024-04-13 18:28:53,282 - __main__ - DEBUG - 492
+2024-04-13 18:28:53,284 - __main__ - DEBUG - 497
+2024-04-13 18:28:53,287 - __main__ - ERROR - An unexpected error occurred when comparing missing data: Item wrong length 257 instead of 497.
+2024-04-13 18:28:53,294 - __main__ - INFO - No new data
+2024-04-13 18:28:53,294 - __main__ - INFO - End job
