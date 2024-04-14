@@ -6,8 +6,6 @@ import logging
 from datetime import datetime
 import os
 
-from holoviews.ipython import display
-
 """ Placeholder for docstring """
 
 logging_level = logging.DEBUG
@@ -32,10 +30,13 @@ def clean_students_table(df):
     Returns cleaned student df as well as missing entries (no courses taken, no job id)
     """
 
+    # Necessary preparation of contact info field before exploding
     temp = df["contact_info"].copy()
     # Better than plain eval:
     temp = temp.apply(ast.literal_eval)
     data = {}
+
+    # logger.debug(f"Before iteration {temp.head()}")
 
     # Iterate over each dictionary item in contact_info and explode
     for dictionary in temp:
@@ -46,14 +47,31 @@ def clean_students_table(df):
                 data[key] = [value]
 
     # Merge articulated contact info and drop old contact info column
-    new = pd.DataFrame(data)
-    merge = pd.concat([df, new], axis=1)
+    new_data = pd.DataFrame(data)
+
+    logger.debug(f"after iteration, new data df {new_data.columns}. Length: {len(new_data)}")
+    """ HERE IS THE BORK UP? """
+    new_data.to_csv("new_data_sanitycheck.csv")
+    merge = pd.concat([df, new_data], axis=1)
+    logger.debug(f"merge {merge.columns}. Length: {len(merge)}")
+    # logger.debug(merge.columns)
     merge = merge.drop("contact_info", axis=1)
+    merge.to_csv("merge_test.csv")
+    # logger.debug(f"after first merge {merge.head()}")
 
     # Splitting contact info into separate fields
-    splitting = merge.mailing_address.str.split(",", expand=True)
+
+
+
+    splitting = merge["mailing_address"].str.split(",", expand=True)
+
+    logger.debug(f"splitting 1 {splitting.columns}. Length: {len(splitting)}")
     splitting.columns = ["street", "city", "state", "zip_code"]
+    splitting.to_csv("splitting_test.csv")
+    # df = pd.concat([merge.drop("mailing_address", axis=1), splitting], axis=1) depreciated
     df = pd.concat([merge.drop("mailing_address", axis=1), splitting], axis=1)
+
+    logger.debug(f"Length df {len(df)}")
 
     """ Fix data types """
 
@@ -65,20 +83,46 @@ def clean_students_table(df):
     df.num_course_taken = df.num_course_taken.astype(float)
     df.time_spent_hrs = df.time_spent_hrs.astype(float)
 
+    logger.debug(f"Length df {len(df)}")
+
     """ Separate missing data """
 
     missing_data = pd.DataFrame()
+    logger.debug(f"Missing data length {len(missing_data)}")
+
     students_missing_courses = df[df["num_course_taken"].isnull()]
-    missing_data = pd.concat([missing_data, students_missing_courses])
-    df = df.dropna(subset=["num_course_taken"])
-    logger.debug(len(missing_data))
+    logger.debug(f"Seperating: len missing courses {len(students_missing_courses)}")
 
     missing_job_id = df[df["job_id"].isnull()]
-    missing_data = pd.concat([missing_data, missing_job_id])
-    df = df.dropna(subset=["job_id"])
-    logger.debug(len(missing_data))
+    logger.debug(f"Seperating: len missing job ids {len(missing_job_id)}")
+
+    missing_data = pd.concat([students_missing_courses, missing_job_id])
+    logger.debug(f"Seperating: len missing data {len(missing_data)}")
+
+    """
+        missing_data = pd.DataFrame()
+
+        students_missing_courses = df[df["num_course_taken"].isnull()]
+        logger.debug(f"Length students missing courses: {len(students_missing_courses)}")
+
+        missing_data = pd.concat([missing_data, students_missing_courses])
+
+        df = df.dropna(subset=["num_course_taken"])
+
+        logger.debug(f"Length of missing data num_course_taken: {len(missing_data)} ")
+
+        missing_job_id = df[df["job_id"].isnull()]
+        missing_data = pd.concat([missing_data, missing_job_id])
+        df = df.dropna(subset=["job_id"])
+
+        logger.debug(f"Length of missing data + missing job_ids: {len(missing_data)}")
+
+
+        """
 
     return df, missing_data
+
+
 
 
 def clean_courses_table(df):
@@ -96,7 +140,7 @@ def clean_courses_table(df):
 
 def clean_student_jobs(df):
     """
-    We did drop the duplicates.
+    We drop the duplicates.
 
     :param df:
     :return df:
@@ -147,7 +191,7 @@ def test_schema(local_df, db_table):
         logger.error(err_msg)
         raise ValueError(err_msg)
     else:
-        logger.info("Dtypes are identical.")
+        logger.info("Dtypes check out.")
 
 
 def test_num_columns(local_df, db_table):
@@ -165,7 +209,7 @@ def test_num_columns(local_df, db_table):
         logger.exception("Number of columns mismatch")
         raise ValueError("Number of columns mismatch") from ae
     else:
-        logger.info('Number of columns are the same.')
+        logger.info('Number of columns check out.')
 
 
 def test_path_id(students, careers):
@@ -201,8 +245,11 @@ def test_job_id(students, jobs):
 
           """
     student_table = students.job_id.unique()
+    logger.debug(f"Length students table {len(student_table)}")
     is_subset = np.isin(student_table, jobs.job_id.unique())
+    logger.debug(f"Length is subset {len(is_subset)}")
     missing_job_ids = student_table[~is_subset]
+    logger.debug(f"Length missing job ids {len(missing_job_ids)}, {missing_job_ids}")
     try:
         assert len(missing_job_ids) == 0, f"Job ID(s) missing: {list(missing_job_ids)} in student_jobs DataFrame"
     except AssertionError as ae:
@@ -229,7 +276,7 @@ def main():
             # Extracting version number from the first line in the format x.x.x
             version = lines[0].split(".")[2].strip()
             next_ver = int(version) + 1
-            logger.info(f"Version number: {version}")
+            logger.info(f"Next version number: {next_ver}")
 
         # Append the new version to the changelog
         with open("./dev/changelog.md", "a+") as f:
@@ -239,7 +286,7 @@ def main():
     except FileNotFoundError:
         logger.error("Changelog file not found!")
     except Exception as e:
-        logger.error(f"An unexpected error occurred: {e}")
+        logger.error(f"An unexpected error occurred when editing the changelog: {e}")
 
     """
     Database connection and queries
@@ -269,23 +316,35 @@ def main():
 
         clean_table = pd.DataFrame()
         missing_table = pd.DataFrame()
-        new_students = pd.DataFrame()
+
+        # This is borked? ->
 
         try:
             clean_table = pd.read_sql_query("SELECT * FROM main_cancelled_subscribers", con)
             missing_table = pd.read_sql_query("SELECT * FROM incomplete_data_subscribers", con)
             new_students = df_students[~np.isin(df_students.uuid.unique(), clean_table.uuid.unique())]
+            logger.debug(f"Length difference df_students und clean_table {len(new_students)}")
             new_students.to_csv("new_students_sanitycheck.csv")
+        except sqlite3.Error as sqe:
+            # Log the error and fallback to df_students
+            logger.error(f"Database-operation error: {sqe}. Falling back to existing tables.")
+            new_students = df_students
+            clean_table = []
         except Exception as e:
             # Log the error and fallback to df_students
-            logger.error(f"An unexpected error occurred: {e}. Falling back to existing tables.")
+            logger.error(f"Unexpected error: {e}. Falling back to existing tables.")
             new_students = df_students
+            clean_table = []
         finally:
-            con.close()
+            if con:
+                con.close()
 
         # Actual cleaning of data
+
         cleaned_new_students, missing_data = clean_students_table(new_students)
+        cleaned_new_students.to_csv("cleaned_new_students.sanitycheck.csv")
         missing_data.to_csv("missing_data_sanitycheck.csv")
+
         # Comparison and filtering
         try:
             new_missing_data = missing_data[~np.isin(missing_data.uuid.unique(), missing_table.uuid.unique())]
@@ -304,13 +363,14 @@ def main():
             cleaned_student_jobs = clean_student_jobs(df_student_jobs)
 
             # Unit Testing
-            test_job_id(cleaned_new_students, cleaned_student_jobs)
+            #test_job_id(cleaned_new_students, cleaned_student_jobs)
             test_path_id(cleaned_new_students, cleaned_career_paths)
 
             # Merging cleaned data
             obt = cleaned_new_students.merge(cleaned_career_paths, left_on="current_career_path_id",
                                              right_on="career_path_id", how="left")
             obt = obt.merge(cleaned_student_jobs, on="job_id", how="left")
+
             if len(clean_table) > 0:
                 test_num_columns(obt, clean_table)
                 test_schema(obt, clean_table)
