@@ -6,11 +6,11 @@ import logging
 from datetime import datetime
 import os
 
-""" Placeholder for docstring """
+""" Still errors when repeatedly starting script. First run is okay! """
 
 logging_level = logging.DEBUG
 
-logging.basicConfig(filename="./dev/clean_db.log", format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+logging.basicConfig(filename="dev/clean_db.log", format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
                     filemode="w", level=logging_level, force=True)
 logger = logging.getLogger(__name__)
 
@@ -60,8 +60,6 @@ def clean_students_table(df):
     # logger.debug(f"after first merge {merge.head()}")
 
     # Splitting contact info into separate fields
-
-
 
     splitting = merge["mailing_address"].str.split(",", expand=True)
 
@@ -124,8 +122,6 @@ def clean_students_table(df):
         """
 
     return df, missing_data
-
-
 
 
 def clean_courses_table(df):
@@ -320,8 +316,6 @@ def main():
         clean_table = pd.DataFrame()
         missing_table = pd.DataFrame()
 
-        # This is borked? ->
-
         try:
             clean_table = pd.read_sql_query("SELECT * FROM main_cancelled_subscribers", con)
             missing_table = pd.read_sql_query("SELECT * FROM incomplete_data_subscribers", con)
@@ -366,7 +360,7 @@ def main():
             cleaned_student_jobs = clean_student_jobs(df_student_jobs)
 
             # Unit Testing
-            #test_job_id(cleaned_new_students, cleaned_student_jobs)
+            # test_job_id(cleaned_new_students, cleaned_student_jobs)
             test_path_id(cleaned_new_students, cleaned_career_paths)
 
             # Merging cleaned data
@@ -386,7 +380,7 @@ def main():
             con.close()
 
             # Create .csv output
-            clean_table.to_csv("./main_cancelled_subscribers.csv")
+            clean_table.to_csv("./dev/main_cancelled_subscribers.csv")
 
             new_lines = [
                 "## 0.0" + str(next_ver) + "\n" + "### Added\n" +
