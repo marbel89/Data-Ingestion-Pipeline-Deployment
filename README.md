@@ -1,6 +1,17 @@
 # Automated data ingestion pipeline (WIP)
 
-This project consists of an automated pipeline, channeling and wrangling/cleaning data from a SQlite database. 
+This project consists of an automated pipeline, channeling and wrangling/cleaning data from a SQlite database to be used in analytics.
+
+Included are:
+<ul>
+  <li>Unit Tests</li>
+  <li>Detailed error and debugging logs</li>
+  <li>Automatic version checking and updating</li>
+  <li>Upserting cleaned data into live database</li>
+</ul>
+
+
+
 
 ## Roadmap
 
