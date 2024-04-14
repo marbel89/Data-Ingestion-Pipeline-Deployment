@@ -10,7 +10,13 @@ Included are:
   <li>Upserting cleaned data into live database</li>
 </ul>
 
-
+Tools used are
+<ul>
+  <li>Python</li>
+  <li>Jupyter Notebook for initial explorative data analysis</li>
+  <li>Bash</li>
+  <li>Unit test and Logging libraries</li>
+</ul>
 
 
 ## Roadmap
