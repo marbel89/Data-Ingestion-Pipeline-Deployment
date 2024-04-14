@@ -7,8 +7,8 @@ This project consists of an automated pipeline, channeling and wrangling/cleanin
 Features to be implemented with next releases:
 
 <ol>
-  Bugfixing (after first run data gets borked)
-  Readme and writeup
+  <li>Bugfixing (after first run data gets borked)</li>
+  <li>Readme and writeup</li>
 </ol>
 
 Features already implemented:
