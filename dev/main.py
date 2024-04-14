@@ -99,6 +99,9 @@ def clean_students_table(df):
     missing_data = pd.concat([students_missing_courses, missing_job_id])
     logger.debug(f"Seperating: len missing data {len(missing_data)}")
 
+    df = df.dropna(subset=["num_course_taken"])
+    df = df.dropna(subset=["job_id"])
+
     """
         missing_data = pd.DataFrame()
 
