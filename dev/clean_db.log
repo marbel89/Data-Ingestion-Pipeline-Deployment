@@ -1,16 +1,53 @@
-2024-04-13 18:28:53,233 - __main__ - DEBUG - D:\Dropbox\00_Work\002_Portfolio\automate_data_ingestion
-2024-04-13 18:28:53,233 - __main__ - INFO - Job is starting.
-2024-04-13 18:28:53,233 - __main__ - ERROR - An unexpected error occurred: list index out of range
-2024-04-13 18:28:53,233 - __main__ - INFO - Connection successful.
-2024-04-13 18:28:53,233 - __main__ - INFO - Total changes since last commit: 0
-2024-04-13 18:28:53,234 - __main__ - INFO - Tables in the database:
-2024-04-13 18:28:53,234 - __main__ - INFO - students
-2024-04-13 18:28:53,234 - __main__ - INFO - student_jobs
-2024-04-13 18:28:53,234 - __main__ - INFO - courses
-2024-04-13 18:28:53,234 - __main__ - INFO - incomplete_data_subscribers
-2024-04-13 18:28:53,234 - __main__ - INFO - main_cancelled_subscribers
-2024-04-13 18:28:53,282 - __main__ - DEBUG - 492
-2024-04-13 18:28:53,284 - __main__ - DEBUG - 497
-2024-04-13 18:28:53,287 - __main__ - ERROR - An unexpected error occurred when comparing missing data: Item wrong length 257 instead of 497.
-2024-04-13 18:28:53,294 - __main__ - INFO - No new data
-2024-04-13 18:28:53,294 - __main__ - INFO - End job
+2024-04-14 19:38:47,574 - __main__ - DEBUG - D:\Dropbox\00_Work\002_Portfolio\automate_data_ingestion
+2024-04-14 19:38:47,574 - __main__ - INFO - Job is starting.
+2024-04-14 19:38:47,574 - __main__ - ERROR - An unexpected error occurred when editing the changelog: list index out of range
+2024-04-14 19:38:47,574 - __main__ - INFO - Connection successful.
+2024-04-14 19:38:47,574 - __main__ - INFO - Total changes since last commit: 0
+2024-04-14 19:38:47,575 - __main__ - INFO - Tables in the database:
+2024-04-14 19:38:47,575 - __main__ - INFO - students
+2024-04-14 19:38:47,575 - __main__ - INFO - student_jobs
+2024-04-14 19:38:47,575 - __main__ - INFO - courses
+2024-04-14 19:38:47,575 - __main__ - INFO - incomplete_data_subscribers
+2024-04-14 19:38:47,575 - __main__ - INFO - main_cancelled_subscribers
+2024-04-14 19:38:47,589 - __main__ - DEBUG - Length difference df_students und clean_table 5000
+2024-04-14 19:38:47,672 - __main__ - DEBUG - after iteration, new data df Index(['mailing_address', 'email'], dtype='object'). Length: 5000
+2024-04-14 19:38:47,684 - __main__ - DEBUG - merge Index(['uuid', 'name', 'dob', 'sex', 'contact_info', 'job_id',
+       'num_course_taken', 'current_career_path_id', 'time_spent_hrs',
+       'mailing_address', 'email'],
+      dtype='object'). Length: 5000
+2024-04-14 19:38:47,710 - __main__ - DEBUG - splitting 1 RangeIndex(start=0, stop=4, step=1). Length: 5000
+2024-04-14 19:38:47,723 - __main__ - DEBUG - Length df 5000
+2024-04-14 19:38:47,727 - __main__ - DEBUG - Length df 5000
+2024-04-14 19:38:47,728 - __main__ - DEBUG - Missing data length 0
+2024-04-14 19:38:47,729 - __main__ - DEBUG - Seperating: len missing courses 251
+2024-04-14 19:38:47,730 - __main__ - DEBUG - Seperating: len missing job ids 5
+2024-04-14 19:38:47,730 - __main__ - DEBUG - Seperating: len missing data 256
+2024-04-14 19:38:47,770 - __main__ - INFO - All career_path_ids are present.
+2024-04-14 19:38:47,845 - __main__ - DEBUG - ## 0.0None
+### Added
+- 4744 more data to database of raw data
+- 256 new missing data to missing_data table
+
+## 0.0None
+### Added
+- 4744 more data to database of raw data
+- 256 new missing data to missing_data table
+
+## 0.0None
+### Added
+- 4744 more data to database of raw data
+- 256 new missing data to missing_data table
+
+## 0.01
+### Added
+- 4744 more data to database of raw data
+- 256 new missing data to missing_data table
+
+0.0.0
+Version 1, 2024-04-14: 
+
+Version 1, 2024-04-14: 
+
+Version 1, 2024-04-14: 
+
+2024-04-14 19:38:47,846 - __main__ - INFO - End job
