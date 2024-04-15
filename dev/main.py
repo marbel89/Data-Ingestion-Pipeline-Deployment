@@ -6,7 +6,16 @@ import logging
 from datetime import datetime
 import os
 
-""" Still errors when repeatedly starting script. First run is okay! """
+""" 
+Still WIP; errors when repeatedly starting script. First run should be okay, though. 
+
+Main procedure/instruction is in the main readme. 
+
+Follows mostly pep8 guidelines, linting is on the roadmap.
+
+Author: Mark Bellmann
+Last update: 15.04.2024
+"""
 
 logging_level = logging.DEBUG
 
@@ -99,27 +108,6 @@ def clean_students_table(df):
 
     df = df.dropna(subset=["num_course_taken"])
     df = df.dropna(subset=["job_id"])
-
-    """
-        missing_data = pd.DataFrame()
-
-        students_missing_courses = df[df["num_course_taken"].isnull()]
-        logger.debug(f"Length students missing courses: {len(students_missing_courses)}")
-
-        missing_data = pd.concat([missing_data, students_missing_courses])
-
-        df = df.dropna(subset=["num_course_taken"])
-
-        logger.debug(f"Length of missing data num_course_taken: {len(missing_data)} ")
-
-        missing_job_id = df[df["job_id"].isnull()]
-        missing_data = pd.concat([missing_data, missing_job_id])
-        df = df.dropna(subset=["job_id"])
-
-        logger.debug(f"Length of missing data + missing job_ids: {len(missing_data)}")
-
-
-        """
 
     return df, missing_data
 
@@ -260,8 +248,8 @@ def test_job_id(students, jobs):
 
 def main():
     """
-    Version and changelog handling
-
+    Version and changelog handling.
+    The changelog has to be pre-populated with something (i.e. 0.0.0).
     """
     logger.info("Job is starting.")
     next_ver = None
