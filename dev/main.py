@@ -1,4 +1,6 @@
 import sqlite3
+import sys
+
 import pandas as pd
 import numpy as np
 import ast
@@ -307,7 +309,13 @@ def main():
         try:
             clean_table = pd.read_sql_query("SELECT * FROM main_cancelled_subscribers", con)
             missing_table = pd.read_sql_query("SELECT * FROM incomplete_data_subscribers", con)
-            new_students = df_students[~np.isin(df_students.uuid.unique(), clean_table.uuid.unique())]
+
+            # There are only new students (i.e. new database entries), if they are not already in the tables
+            not_in_clean = ~np.isin(df_students.uuid.unique(), clean_table.uuid.unique())
+            not_in_missing = ~np.isin(df_students.uuid.unique(), missing_table.uuid.unique())
+            new_students = df_students[not_in_clean & not_in_missing]
+
+
             logger.debug(f"Length difference df_students und clean_table {len(new_students)}")
             new_students.to_csv("new_students_sanitycheck.csv")
         except sqlite3.Error as sqe:
@@ -325,10 +333,14 @@ def main():
                 con.close()
 
         # Actual cleaning of data
-
-        cleaned_new_students, missing_data = clean_students_table(new_students)
-        cleaned_new_students.to_csv("cleaned_new_students.sanitycheck.csv")
-        missing_data.to_csv("missing_data_sanitycheck.csv")
+        logger.debug(f"Length of new students before cleaning: {new_students.shape[0]}")
+        if new_students.shape[0] != 0:
+            cleaned_new_students, missing_data = clean_students_table(new_students)
+            cleaned_new_students.to_csv("cleaned_new_students.sanitycheck.csv")
+            missing_data.to_csv("missing_data_sanitycheck.csv")
+        else:
+            logger.info("No new data. Ending now.")
+            sys.exit()
 
         # Comparison and filtering
         try:
