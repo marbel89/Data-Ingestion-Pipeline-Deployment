@@ -263,13 +263,13 @@ def main():
             next_ver = 1
         else:
             # Extracting version number from the first line in the format x.x.x
-            version = lines[0].split(".")[2].strip()
+            version = lines[0].split(".")[2][0]
             next_ver = int(version) + 1
             logger.info(f"Next version number: {next_ver}")
 
-        # Append the new version to the changelog
-        with open("./dev/changelog.md", "a+") as f:
-            f.write(f"\nVersion {next_ver}, {datetime.now().strftime('%Y-%m-%d')}: \n")
+        # Append the new version to the changelog REDUNDANT
+        # with open("./dev/changelog.md", "a+") as f:
+        #    f.write(f"\nVersion {next_ver}, {datetime.now().strftime('%Y-%m-%d')}: \n")
 
         logger.info("Version incremented successfully.")
     except FileNotFoundError:
@@ -383,7 +383,7 @@ def main():
             clean_table.to_csv("./dev/main_cancelled_subscribers.csv")
 
             new_lines = [
-                "## 0.0" + str(next_ver) + "\n" + "### Added\n" +
+                "## 0.0" + str(next_ver) + "\n" + "## Added\n" +
                 "- " + str(len(obt)) + " more data to database of raw data\n" +
                 "- " + str(len(new_missing_data)) + " new missing data to missing_data table\n\n"
             ]
