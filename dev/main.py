@@ -1,19 +1,15 @@
 import sqlite3
 import sys
-
 import pandas as pd
 import numpy as np
 import ast
 import logging
-from datetime import datetime
 import os
 
 """ 
-Still WIP; errors when repeatedly starting script. First run should be okay, though. 
+Main procedure/instruction is just as described as in the main readme. 
 
-Main procedure/instruction is in the main readme. 
-
-Follows mostly pep8 guidelines, linting is on the roadmap.
+Follows mostly pep8 guidelines.
 
 Author: Mark Bellmann
 Last update: 15.04.2024
@@ -314,7 +310,6 @@ def main():
             not_in_clean = ~np.isin(df_students.uuid.unique(), clean_table.uuid.unique())
             not_in_missing = ~np.isin(df_students.uuid.unique(), missing_table.uuid.unique())
             new_students = df_students[not_in_clean & not_in_missing]
-
 
             logger.debug(f"Length difference df_students und clean_table {len(new_students)}")
             new_students.to_csv("new_students_sanitycheck.csv")
