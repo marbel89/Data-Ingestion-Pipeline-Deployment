@@ -1,4 +1,4 @@
-# Automated data ingestion pipeline (WIP)
+# Automated data ingestion pipeline
 
 This project consists of an automated pipeline, channeling and wrangling/cleaning data from a SQlite database to be used in analytics.
 
@@ -19,16 +19,7 @@ Tools used are
 </ul>
 
 
-## Roadmap
-
-Features to be implemented with next releases:
-
-<ol>
-  <li>Bugfixing for Bash script</li>
-  <li>Fleshing out readme and writeup</li>
-</ol>
-
-Features already implemented:
+## Features
 
 <ul>
   <li>Notebook EDA and cleansing</li>
