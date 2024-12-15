@@ -1,4 +1,4 @@
-# Automated data ingestion pipeline (WIP)
+# Automated data ingestion pipeline
 
 This project consists of an automated pipeline, channeling and wrangling/cleaning data from a SQlite database to be used in analytics.
 
@@ -19,16 +19,7 @@ Tools used are
 </ul>
 
 
-## Roadmap
-
-Features to be implemented with next releases:
-
-<ol>
-  <li>Bugfixing (after first run data gets borked)</li>
-  <li>Readme and writeup</li>
-</ol>
-
-Features already implemented:
+## Features
 
 <ul>
   <li>Notebook EDA and cleansing</li>
@@ -45,6 +36,6 @@ Features already implemented:
   <li>Follow prompts</li>
   <li>Bash script will start dev/main.py to clean tables from a database (db/data.db)</li>
   <li>Unit-Testing and extensive logging will catch possible errors in detail</li>
-  <li>Version updates are automatic after each run and written to dev/changelog.md</li>
+  <li>Version updates are automatic after each run that adds new data, and written to dev/changelog.md</li>
   <li>In case of changelog.md updates, the script can copy dev files (database with new entries...) to prod folder (WIP)</li>
 </ol>
